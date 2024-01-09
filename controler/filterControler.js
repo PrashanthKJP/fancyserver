@@ -1,65 +1,50 @@
 const numberModal = require("../modals/numberModal");
 
-// const advancedSearch = async (req, res) => {
-//   try {
-//     const { anyWare, endWith, mustContain, notContain, startWith, sum, total } =
-//       req.query;
-
-//     let query = {};
-
-//     if (startWith) {
-//       query.number = {
-//         ...query.number,
-//         $regex: `^${startWith}`,
-//         $options: "i",
-//       };
-//     }
-
-//     if (endWith) {
-//       query.number = { ...query.number, $regex: `${endWith}$`, $options: "i" };
-//     }
-
-//     if (anyWare) {
-//       query.number = { ...query.number, $regex: anyWare, $options: "i" };
-//     }
-
-//     if (mustContain) {
-//       query.number = { ...query.number, $regex: mustContain, $options: "i" };
-//     }
-
-//     if (notContain) {
-//       query.number = {
-//         ...query.number,
-//         $not: { $regex: notContain, $options: "i" },
-//       };
-//     }
-
-//     if (total || sum) {
-//       query = {
-//         $or: [
-//           { oneTimeSum: { $in: total } },
-//           { secondTimeSum: { $in: total || sum } },
-//           { thridTimeSum: { $in: total || sum } },
-//         ],
-//       };
-//     }
-
-//     const response = await numberModal.find(query);
-
-//     res.status(200).json(response);
-//   } catch (error) {
-//     res.status(500).json({ message: "something went wrong" });
-//     console.log(error);
-//   }
-// };
-
 const advancedSearch = async (req, res) => {
   try {
     const { anyWare, endWith, mustContain, notContain, startWith, sum, total } =
       req.query;
 
+    let query = {};
+
+    if (startWith) {
+      query.number = {
+        ...query.number,
+        $regex: `^${startWith}`,
+        $options: "i",
+      };
+    }
+
+    if (endWith) {
+      query.number = { ...query.number, $regex: `${endWith}$`, $options: "i" };
+    }
+
+    if (anyWare) {
+      query.number = { ...query.number, $regex: anyWare, $options: "i" };
+    }
+
+    if (mustContain) {
+      query.number = { ...query.number, $regex: mustContain, $options: "i" };
+    }
+
+    if (notContain) {
+      query.number = {
+        ...query.number,
+        $not: { $regex: notContain, $options: "i" },
+      };
+    }
+
+    if (total || sum) {
+      query = {
+        $or: [
+          { oneTimeSum: { $in: total } },
+          { secondTimeSum: { $in: total || sum } },
+          { thridTimeSum: { $in: total || sum } },
+        ],
+      };
+    }
+
     const response = await numberModal.find(query);
-    console.log(query);
 
     res.status(200).json(response);
   } catch (error) {
@@ -67,6 +52,21 @@ const advancedSearch = async (req, res) => {
     console.log(error);
   }
 };
+
+// const advancedSearch = async (req, res) => {
+//   try {
+//     const { anyWare, endWith, mustContain, notContain, startWith, sum, total } =
+//       req.query;
+
+//     const response = await numberModal.find(query);
+//     console.log(query);
+
+//     res.status(200).json(response);
+//   } catch (error) {
+//     res.status(500).json({ message: "something went wrong" });
+//     console.log(error);
+//   }
+// };
 
 const filterNumbers = async (req, res) => {
   try {
